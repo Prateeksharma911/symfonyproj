@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Welcome {{update}}!
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    
+    <h1>{{ update }}</h1>
+    <div>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum mollitia voluptatum sint 
+</div>
+<h1>Hey {{answers|length}}</h1>
+
+
+<ul>
+    {% for answer in answers %}
+    <li>{{ answer }}</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}
