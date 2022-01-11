@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/normal")
      */
-    public function homepage(){
+    public function normal(){
         
         return new Response('Hello');
     }
@@ -30,7 +30,8 @@ class IndexController extends AbstractController
             'Building on Royce reputation established with his cranes they quickly developed a reputation for superior engineering by manufacturing the "best car in the world".',' The First World War brought them into manufacturing aero-engines. Joint development of jet engines began in 1940'
 
         ];
-        return $this->render('index/show.html.twig', [
+        dump($this);
+        return $this->render('index/test.html.twig', [
             'update' => $idupdate,  
             'answers' => $answers,
         ]);

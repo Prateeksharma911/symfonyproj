@@ -3,15 +3,24 @@
 Welcome!
 {% endblock %}
 
-
 {% block body %}
+
+  <h1>{{ update }}</h1>
+  
+  
+<h1>Hey {{answers|length}}</h1>
+
+
+<ul>
+  {% for answer in answers %}
+  <li>{{ answer }}</li>
+  {% endfor %}
+</ul>
 <div class="container">
   
 </div>
 <div>
     <h2>Insertion</h2>
-    {{ form_start(form) }}
-    {{ form(form) }}
-    {{form_end(form)}}
+    
 </div>
 {% endblock %}
