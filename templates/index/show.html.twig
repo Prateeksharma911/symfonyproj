@@ -5,13 +5,20 @@ Welcome!
 
 
 {% block body %}
-<div class="container">
-  
-</div>
+
 <div>
     <h2>Insertion</h2>
-    {{ form_start(form) }}
-    {{ form(form) }}
-    {{form_end(form)}}
+    {{ form_start(forms) }}
+    Name:
+    {{ form_widget(forms.name) }}
+    <br>
+    Price:
+    {{ form_widget(forms.price) }}
+    <br>
+    <button>Submit</button>
+    {{form_end(forms)}}
+
 </div>
+
+
 {% endblock %}

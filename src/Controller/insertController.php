@@ -24,9 +24,14 @@ class insertController extends AbstractController
         $crud = new Product();
         $form = $this->createForm(ProductformType::class,$crud);
         $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+        }
         return $this->render('index/show.html.twig',[
-            'form'=>$form->createView()
+            'forms'=>$form->createView()
         ]);
+        dump($form);
     }
     
 }
