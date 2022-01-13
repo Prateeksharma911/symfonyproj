@@ -12,15 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class createController extends AbstractController
 {
     /**
-     * @Route("/productcreate", name="product_create")
+     * @Route("/productcreate/{data}", name="product_create")
      */
-    public function show(ManagerRegistry $doctrine): Response
+    public function show(ManagerRegistry $doctrine, array $data): Response
     {
         $productadding = $doctrine->getManager();
 
         $product=new Product();
-        $product->setName('Apple');
-        $product->setPrice('59999');
+        $product->setName($data[0]);
+        $product->setPrice($data[1]);
         $productadding->persist($product);
         $productadding->flush();
         

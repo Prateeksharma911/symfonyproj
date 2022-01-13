@@ -23,15 +23,21 @@ class apiController extends AbstractController
             );
         }
         $totalproduct = count($product);
-   
+        // return new Response($product);
+        $allProducts = array();
+        // $i = 0;
+        // while ($i < $totalproduct)
+        // {
+        //     $allProducts[] =  $allProducts[$i] ;
+        //     $i++;
+        // }
+        foreach ($product as $prod)  {
+            $allProducts[] =  $prod;
+        }
+        // return $this->json(['products'=>$allProducts]);
 
-        // return new Response('Check out this great product: '.$product->getName().$product->getPrice());
-
-        return new Response('Check out this great product: ' .var_dump($product));
-
-        // or render a template
-        // in the template, print things with {{ product.name }}
-        // return $this->render('product/show.html.twig', ['product' => $product]);
+        return new Response('Check out this great product: ' .json_encode($allProducts));
+        
     
 }
     /**
