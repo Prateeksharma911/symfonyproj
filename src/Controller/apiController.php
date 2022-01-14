@@ -12,8 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class apiController extends AbstractController
 {
     /**
-     * @Route("/product", name="product_show")
-     */public function show(ManagerRegistry $doctrine): Response
+     * @Route("/products", name="product_show")
+     */
+    public function show(ManagerRegistry $doctrine , Request $request): Response
     {
         $product = $doctrine->getRepository(Product::class)->findAll();
 
@@ -24,24 +25,24 @@ class apiController extends AbstractController
         }
         $totalproduct = count($product);
         // return new Response($product);
-        $allProducts = array();
+        return $this->json($product);
         // $i = 0;
         // while ($i < $totalproduct)
         // {
         //     $allProducts[] =  $allProducts[$i] ;
         //     $i++;
         // }
-        foreach ($product as $prod)  {
-            $allProducts[] =  $prod;
-        }
+        // foreach ($product as $prod)  {
+        //     $allProducts[] =  $prod;
+        // }
         // return $this->json(['products'=>$allProducts]);
 
-        return new Response('Check out this great product: ' .json_encode($allProducts));
+        // return new Response('Check out this great product: ' .dd($allProducts));
         
     
 }
     /**
-     * @Route("/product/{id}", name="product_show_id")
+     * @Route("/products/{id}", name="product_show_id")
      */
     public function showWithId(ManagerRegistry $doctrine , int $id): Response
      {
