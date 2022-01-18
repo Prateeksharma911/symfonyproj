@@ -40,7 +40,38 @@ class apiController extends AbstractController
         return new Response('Check out this great product: ' .dd($product));
         // return $this->json($product);
     }
-    
+     /**
+     * @Route("/productseditng/{id}" , name="Product_editing")
+     */
+    public function updating(ManagerRegistry $doctrine, int $id, Request $request): Response
+    {
+        $sn = $this->getDoctrine()->getManager();
+        $product = $doctrine->getRepository(Product::class);
+        $product=$product->find($id);
+        $name = $request->get('name');
+        $price = $request->get('price');
+
+        if (empty($product)) {
+            return new Response("user not found", Response::HTTP_NOT_FOUND);
+          } 
+         elseif(!empty($name) && !empty($price)){
+            $product->setName($name);
+            $product->setPrice($price);
+            $sn->flush();
+            return new Response("User Updated Successfully", Response::HTTP_OK);
+          }
+         elseif(empty($name) && !empty($price)){
+            $product->setPrice($price);
+            $sn->flush();
+            return new Response("Price Updated Successfully", Response::HTTP_OK);
+         }
+         elseif(!empty($name) && empty($price)){
+          $product->setName($name);
+          $sn->flush();
+          return new Response("Product Name Updated Successfully", Response::HTTP_OK); 
+         }
+         else return new Response("Product name or price cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
+    }
 
     /**
      * @Route("/products/{id}", name="product_show_id")
