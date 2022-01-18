@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Doctrine\DBAL\Schema\View;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,22 +17,43 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/edit/{id}")
      */
-    public function update(ManagerRegistry $doctrine, int $id): Response
+    public function update(ManagerRegistry $doctrine, int $id,Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
-        $product = $entityManager->getRepository(Product::class)->find($id);
-
+        $product = $doctrine->getRepository(Product::class);
+        $product=$product->find($id);
+        $name = $request->get('name');
+        $price = $request->get('price');
         if (!$product) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for id '
             );
         }
-
-        $product->setName('Sony');
-        $entityManager->flush();
-
-        return $this->redirectToRoute('product_show', [
-            'id' => $product->getId()
-        ]);
-    }
+        return new Response('Product Added ' .$product->getName());
+     
+        //     if (empty($user)) {
+        //         return new View("user not found", Response::HTTP_NOT_FOUND);
+        //     } 
+        //     elseif(!empty($name) && !empty($price)){
+        //         $user->setName($name);
+        //         $user->setPrice($price);
+        //         $sn->flush();
+        //         return new View("User Updated Successfully", Response::HTTP_OK);
+        //     }
+        //     elseif(empty($name) && !empty($price)){
+        //         $user->setPrice($price);
+        //         $sn->flush();
+        //         return new View("price Updated Successfully", Response::HTTP_OK);
+        //     }
+        //     elseif(!empty($name) && empty($price)){
+        //         $user->setName($name);
+        //         $sn->flush();
+        //         return new View("User Name Updated Successfully", Response::HTTP_OK); 
+        //     }
+        //     else return new Response('Product Added ' .$user->getName());
+        }
+        
+        // return $this->createNotFoundException('No product found for id '.$id);
+        // return $this->redirectToRoute('product_show', [
+        //     'id' => $product->getId()
+        // ]);
 }
