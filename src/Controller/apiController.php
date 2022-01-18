@@ -51,7 +51,7 @@ class apiController extends AbstractController
 
         return new Response('Check out this great product: ' .dd($product));
         // return $this->json($product);
-}
+    }
 
 
     /**

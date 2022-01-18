@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class createController extends AbstractController
 {
     /**
-     * @Route("/productcreate", name="product_create" , methods: ['GET','HEAD']))
+     * @Route("/productcreate", name="product_create")
      */
     public function show(Request $request)
     {
