@@ -23,7 +23,6 @@ class apiController extends AbstractController
                 'No product found for id '
             );
         }
-        $totalproduct = count($product);
 
         $arrayCollection = array();
 
