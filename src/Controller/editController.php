@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Repository\ProductRepository;
 use Doctrine\DBAL\Schema\View;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,17 +14,17 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/product/edit/{id}")
+     * @Route("/productsedit/{id}" , name="Product_edit")
      */
-    public function update(ManagerRegistry $doctrine, int $id,Request $request): Response
+    public function update(ManagerRegistry $doctrine, int $id): Response
     {
         $product = $doctrine->getRepository(Product::class);
         $product=$product->find($id);
-        $name = $request->get('name');
-        $price = $request->get('price');
+        // $name = $request->get('name');
+        // $price = $request->get('price');
         if (!$product) {
             throw $this->createNotFoundException(
-                'No product found for id '
+                'No product found id '
             );
         }
         return new Response('Product Added ' .$product->getName());
