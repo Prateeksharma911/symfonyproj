@@ -46,12 +46,12 @@ class apiController extends AbstractController
                 'price'=>$item->getPrice(),
             );
         }
-        // return new Response($this->json($arrayCollection));
+        
         return ($this->json($arrayCollection));
 
         return new Response('Check out this great product: ' .dd($product));
         // return $this->json($product);
-}
+    }
 
 
     /**
@@ -68,5 +68,34 @@ class apiController extends AbstractController
         }
  
         return new Response('Check out this great product: ' .$product->getName());
+    }
+    /**
+     * @Route("/expensiveproducts", name="expensive_product_show")
+     */
+    public function expensiveProduct(ManagerRegistry $doctrine ,Request $request): Response
+     {
+        $conn=$this->getDoctrine()->getConnection();
+        $sql = 'SELECT * FROM `product` WHERE price>25000';
+        $stmt =$conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->findAll();
+        // print_r($result);
+        // var_dump($stmt->findAll());die;
+        // return new Response('Check out this great product: ' ($stmt));
+ 
+
+        // var_dump($conn);die;
+        //---
+        // $arrayCollection = array();
+        // foreach($result as $item) {
+        //     $arrayCollection[] = array(
+        //         'id' => $item->getId(),
+        //         'name'=>$item->getName(),
+        //         'price'=>$item->getPrice(),
+        //     );
+        // }
+        return new Response($this->json($stmt));
+        // return ($this->json($arrayCollection));
+
     }
 }
