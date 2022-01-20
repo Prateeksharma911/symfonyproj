@@ -19,6 +19,7 @@ class ProductManager extends AbstractController
     ) {
     }
 
+// Show all products
     public function showProductFromDb(Request $request): Response
     {
         $product = $this->doctrine->getRepository(Product::class)->findAll();
@@ -43,7 +44,7 @@ class ProductManager extends AbstractController
         // return $this->json($product);
     }
 
-// Sow Product of ID
+// Show Product of ID
     public function getproductofid($id): Response
     {
         $product = $this->doctrine->getRepository(Product::class);
@@ -56,6 +57,8 @@ class ProductManager extends AbstractController
  
         return new Response('Check out this great product: ' .$product->getName());
     }
+
+
     // Update Product
     public function updating(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
@@ -87,4 +90,22 @@ class ProductManager extends AbstractController
          else return new Response("Product name or price cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
     }
 
+
+    public function deleteproductofid($id): Response
+    {
+
+        $sn = $this->getDoctrine()->getManager();
+        $product = $this->doctrine->getRepository(Product::class);
+        $product=$product->find($id);
+        
+        if (empty($user)) {
+            return new Response("Product not found", Response::HTTP_NOT_FOUND);
+           }
+           else {
+            $sn->remove($product);
+            $sn->flush();
+           }
+            return new Response("deleted successfully", Response::HTTP_OK);
+           
+    }
 }
