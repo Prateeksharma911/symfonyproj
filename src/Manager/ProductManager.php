@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Manager;
 
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
@@ -9,23 +9,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class apiController extends AbstractController
+class ProductManager extends AbstractController
 {
-    /**
-     * @Route("/products", name="product_show")
-     */
-    public function show(ManagerRegistry $doctrine , Request $request): Response
+
+    protected $doctrine;
+
+    public function __construct(
+        ManagerRegistry $doctrine
+    ) {
+    }
+
+// Show all products
+    public function showProductFromDb(Request $request): Response
     {
-        $product = $doctrine->getRepository(Product::class)->findAll();
+        $product = $this->doctrine->getRepository(Product::class)->findAll();
 
         if (!$product) {
+            
             throw $this->createNotFoundException(
                 'No product found for id '
             );
         }
-
+        // Adding DB data to an array to pass it as json
         $arrayCollection = array();
-
         foreach($product as $item) {
             $arrayCollection[] = array(
                 'id' => $item->getId(),
@@ -35,13 +41,25 @@ class apiController extends AbstractController
         }
         
         return ($this->json($arrayCollection));
-
-        return new Response('Check out this great product: ' .dd($product));
         // return $this->json($product);
     }
-      /**
-     * @Route("/productseditng/{id}" , name="Product_editing")
-     */
+
+// Show Product of ID
+    public function getproductofid($id): Response
+    {
+        $product = $this->doctrine->getRepository(Product::class);
+        $product=$product->find($id);
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No product found for id '
+            );
+        }
+ 
+        return new Response('Check out this great product: ' .$product->getName());
+    }
+
+
+    // Update Product
     public function updating(ManagerRegistry $doctrine, int $id, Request $request): Response
     {
         $sn = $this->getDoctrine()->getManager();
@@ -73,51 +91,21 @@ class apiController extends AbstractController
     }
 
 
+    public function deleteproductofid($id): Response
+    {
 
-
-    /**
-     * @Route("/products/{id}", name="product_show_id")
-     */
-    public function showWithId(ManagerRegistry $doctrine , int $id): Response
-     {
-        $product = $doctrine->getRepository(Product::class);
+        $sn = $this->getDoctrine()->getManager();
+        $product = $this->doctrine->getRepository(Product::class);
         $product=$product->find($id);
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '
-            );
-        }
- 
-        return new Response('Check out this great product: ' .$product->getName());
+        
+        if (empty($user)) {
+            return new Response("Product not found", Response::HTTP_NOT_FOUND);
+           }
+           else {
+            $sn->remove($product);
+            $sn->flush();
+           }
+            return new Response("deleted successfully", Response::HTTP_OK);
+           
     }
-    /**
-     * @Route("/expensiveproducts", name="expensive_product_show")
-     */
-    public function expensiveProduct(ManagerRegistry $doctrine ,Request $request): Response
-     {
-        $conn=$this->getDoctrine()->getConnection();
-        $sql = 'SELECT * FROM `product` WHERE price>25000';
-        $stmt =$conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->findAll();
-        // print_r($result);
-        // var_dump($stmt->findAll());die;
-        // return new Response('Check out this great product: ' ($stmt));
- 
-
-        // var_dump($conn);die;
-        //---
-        // $arrayCollection = array();
-        // foreach($result as $item) {
-        //     $arrayCollection[] = array(
-        //         'id' => $item->getId(),
-        //         'name'=>$item->getName(),
-        //         'price'=>$item->getPrice(),
-        //     );
-        // }
-        return new Response($this->json($stmt));
-        // return ($this->json($arrayCollection));
-
-    }
-    
 }

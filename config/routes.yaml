@@ -1,3 +1,8 @@
-# index:
-#     path: /hell
-#     controller: App\Controller\IndexController::homepage
+showproduct:
+    path: /products
+    controller: App\Controller\apiController::show
+
+showproductwithnew:
+    path: /output
+    controller: App\Controller\ProductController::getshowAction
+

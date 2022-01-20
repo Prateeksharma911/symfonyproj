@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 
 
-class ProductController extends AbstractController
+class editController extends AbstractController
 {
     /**
      * @Route("/productsedit/{id}" , name="Product_edit")
